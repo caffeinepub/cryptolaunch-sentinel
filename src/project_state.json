@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Website project: 'CryptoLaunch Sentinel' for crypto enthusiasts/newbies to discover new token/projects launching across 20+ blockchains with real-time feeds, project details, AI risk insights, and an educational Learn hub. Email-based features (verification/notifications via SendGrid) are explicitly removed.",
+  "architectural_notes": [
+    "Do not use email-based auth/verification or email notifications; proceed without SendGrid/Twilio email support.",
+    "Store third-party API keys securely (no client exposure) and follow secure data handling best practices.",
+    "Support offline caching for Learn lessons.",
+    "Include analytics for user engagement."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-the-core-app-shell-for-cryptolaunch-sentinel-with-a-responsive-layout-that-includes-1-a-landing-dashboard-page-2-a-blockchain-selection-control-supporting-20-blockchains-e-g-ethereum-solana-bnb-chain-polygon-avalanche-cardano-plus-others-3-primary-navigation-tabs-for-dashboard-discover-learn-and-settings-and-4-a-consistent-header-footer",
+      "title": "Create the core app shell for “CryptoLaunch Sentinel” with a responsive layout that includes: (1) a landing/dashboard page, (2) a blockchain selection control supporting 20+ blockchains (e.g., Ethereum, Solana, BNB Chain, Polygon, Avalanche, Cardano, plus others), (3) primary navigation tabs for Dashboard, Discover, Learn, and Settings, and (4) a consistent header/footer.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-real-time-near-real-time-project-discovery-for-the-selected-blockchain-by-integrating-the-following-apis-as-data-sources-alchemy-notify-api-moralis-streams-api-quicknode-dexscreener-api-coingecko-dex-api-bitquery-api-and-coinmarketcap-api-provide-a-unified-new-projects-feed-that-updates-automatically-and-includes-a-visible-last-updated-timestamp-and-refresh-behavior",
+      "title": "Implement real-time (near real-time) project discovery for the selected blockchain by integrating the following APIs as data sources: Alchemy Notify API, Moralis Streams API, QuickNode, Dexscreener API, CoinGecko DEX API, Bitquery API, and CoinMarketCap API. Provide a unified “New Projects” feed that updates automatically and includes a visible “last updated” timestamp and refresh behavior.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-project-details-experience-card-details-page-or-modal-that-displays-project-name-description-token-details-launch-time-and-social-links-handles-twitter-telegram-discord-when-available-ensure-missing-fields-are-handled-gracefully-with-clear-placeholders",
+      "title": "Create a project details experience (card + details page or modal) that displays: project name, description, token details, launch time, and social links/handles (Twitter, Telegram, Discord) when available. Ensure missing fields are handled gracefully with clear placeholders.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-ai-powered-risk-assessment-feature-without-external-llm-services-compute-a-risk-level-low-medium-high-and-an-explanation-based-on-available-signals-such-as-audit-presence-team-transparency-liquidity-volume-token-age-launch-recency-and-other-accessible-indicators-from-the-integrated-data-sources-display-the-risk-level-prominently-on-project-cards-and-in-the-project-details-view-along-with-the-explanation-and-the-signals-used",
+      "title": "Implement an “AI-powered” risk assessment feature without external LLM services: compute a risk level (low/medium/high) and an explanation based on available signals such as audit presence, team transparency, liquidity, volume, token age/launch recency, and other accessible indicators from the integrated data sources. Display the risk level prominently on project cards and in the project details view, along with the explanation and the signals used.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-newbie-friendly-onboarding-and-guidance-including-a-first-time-user-onboarding-flow-contextual-tooltips-a-glossary-with-pop-up-definitions-for-key-web3-terms-and-step-by-step-guidance-explaining-how-to-interpret-the-discovery-feed-and-risk-assessment",
+      "title": "Add newbie-friendly onboarding and guidance, including: a first-time user onboarding flow, contextual tooltips, a glossary with pop-up definitions for key Web3 terms, and step-by-step guidance explaining how to interpret the discovery feed and risk assessment.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dedicated-learn-section-that-provides-daily-non-expiring-web3-lessons-for-newbies-in-interactive-formats-articles-quizzes-and-videos-embeds-where-available-lessons-must-be-generated-curated-automatically-via-predefined-templates-and-periodically-refreshed-using-factual-metadata-pulled-from-the-integrated-apis-no-llm",
+      "title": "Create a dedicated Learn section that provides “daily, non-expiring” Web3 lessons for newbies in interactive formats (articles, quizzes, and videos/embeds where available). Lessons must be generated/curated automatically via predefined templates and periodically refreshed using factual metadata pulled from the integrated APIs (no LLM).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-offline-caching-for-lessons-so-users-can-read-previously-viewed-lessons-without-a-network-connection-provide-clear-ui-states-for-online-offline-and-last-sync-time",
+      "title": "Implement offline caching for lessons so users can read previously viewed lessons without a network connection. Provide clear UI states for online/offline and last sync time.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-user-engagement-analytics-instrumentation-track-key-events-e-g-chain-selection-project-open-risk-details-expand-lesson-start-complete-quiz-submit-and-provide-a-basic-analytics-view-for-aggregate-counts-over-time",
+      "title": "Add user engagement analytics instrumentation: track key events (e.g., chain selection, project open, risk details expand, lesson start/complete, quiz submit) and provide a basic analytics view for aggregate counts over time.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-secure-data-handling-for-external-api-usage-ensure-api-keys-secrets-for-alchemy-moralis-quicknode-bitquery-coinmarketcap-etc-are-not-embedded-in-the-public-frontend-bundle-provide-a-configuration-approach-suitable-for-the-internet-computer-canister-environment-and-ensure-requests-are-proxied-mediated-by-the-backend-when-secrets-are-required",
+      "title": "Implement secure data handling for external API usage: ensure API keys/secrets (for Alchemy, Moralis, QuickNode, Bitquery, CoinMarketCap, etc.) are not embedded in the public frontend bundle. Provide a configuration approach suitable for the Internet Computer canister environment and ensure requests are proxied/mediated by the backend when secrets are required.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-email-based-features-from-scope-do-not-implement-verification-emails-email-otp-login-sendgrid-twilio-sendgrid-integration-or-push-style-email-notifications-replace-with-an-in-app-only-notification-center-non-email-for-new-project-launches-and-lesson-releases-with-user-configurable-preferences-in-settings",
+      "title": "Remove all email-based features from scope: do not implement verification emails, email OTP login, SendGrid/Twilio SendGrid integration, or push-style email notifications. Replace with an in-app-only notification center (non-email) for new project launches and lesson releases, with user-configurable preferences in Settings.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-choose-and-apply-a-cohesive-visual-theme-for-cryptolaunch-sentinel-colors-typography-spacing-components-that-communicates-security-clarity-for-crypto-newbies-avoid-default-looking-styling-and-ensure-consistency-across-dashboard-discover-learn-and-settings-do-not-use-a-blue-and-purple-palette",
+      "title": "Choose and apply a cohesive visual theme for CryptoLaunch Sentinel (colors, typography, spacing, components) that communicates security + clarity for crypto newbies. Avoid default-looking styling and ensure consistency across Dashboard, Discover, Learn, and Settings. Do not use a blue-and-purple palette.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-custom-static-image-assets-for-the-brand-logo-simple-hero-illustration-a-set-of-chain-icons-and-render-them-from-frontend-static-assets-under-frontend-public-assets-generated",
+      "title": "Generate and include custom static image assets for the brand (logo + simple hero illustration + a set of chain icons) and render them from frontend static assets under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create CryptoLaunch Sentinel responsive website with clean UI, dashboard, and multi-chain blockchain selection (20+ chains).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Implement real-time project spotting per selected blockchain using APIs (Alchemy Notify, Moralis Streams, QuickNode, Dexscreener, CoinGecko DEX, Bitquery, CoinMarketCap) with ~5s detection target.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Project details pages/cards showing name, description, token details, launch time, and social handles (Twitter/Telegram/Discord) from APIs/on-chain data.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "AI-powered risk assessment producing low/medium/high risk score with explanations based on audits/team/liquidity/volume and related signals.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Newbie-friendly onboarding: tutorials, tooltips, glossary pop-ups, and guided step-by-step flows.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Learn tab with daily, non-expiring Web3 lessons in interactive formats (articles/quizzes/videos), kept up-to-date with integrated API data.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Offline caching for lessons content.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "User engagement analytics instrumentation and reporting.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Exclude email features: no verification emails or email/push-style notifications via SendGrid/Twilio.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "CryptoLaunch Sentinel",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

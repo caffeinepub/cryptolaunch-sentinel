@@ -1,0 +1,31 @@
+{
+  "kind": "build_request",
+  "title": "Enable basic user onboarding (no email)",
+  "priority": "normal",
+  "requirements": [],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo; only add backend/migration.mo if a state upgrade is required.",
+    "Do not edit frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*; compose these components/hooks instead.",
+    "Use English for all user-facing text.",
+    "Do not implement any email-based features (verification emails, email OTP login, SendGrid/Twilio integrations, email notifications)."
+  ],
+  "nonGoals": [
+    "Adding any email or SMS-based onboarding, verification, or notifications.",
+    "Introducing third-party authentication providers beyond Internet Identity.",
+    "Implementing additional onboarding steps/content beyond what is necessary for basic first-time user guidance (unless explicitly requested)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}
