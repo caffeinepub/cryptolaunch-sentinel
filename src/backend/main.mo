@@ -5,22 +5,21 @@ import Principal "mo:core/Principal";
 import Iter "mo:core/Iter";
 import Int "mo:core/Int";
 import Time "mo:core/Time";
-import Array "mo:core/Array";
 import Runtime "mo:core/Runtime";
-
 import OutCall "http-outcalls/outcall";
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
+import Migration "migration";
 
+(with migration = Migration.run)
 actor {
   // Initialize the access control system
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
 
-  // User Profile Type
+  // User Profile Type without Email
   public type UserProfile = {
     name : Text;
-    email : ?Text;
     bio : ?Text;
   };
 
@@ -92,6 +91,14 @@ actor {
     lessonCompletes : Nat;
     quizSubmits : Nat;
   };
+
+  // Data Provider Configuration (Admin-only)
+  type DataProviderConfig = {
+    url : Text;
+    apiKey : Text;
+  };
+
+  let dataProviderConfigs = Map.empty<Text, DataProviderConfig>();
 
   let projects = Map.empty<Principal, List.List<Project>>();
   let analytics = Map.empty<Principal, ProjectAnalytics>();
@@ -224,17 +231,46 @@ actor {
   };
 
   public query func transform(input : OutCall.TransformationInput) : async OutCall.TransformationOutput {
-    // No authorization check - this is required for HTTP outcalls to work
     OutCall.transform(input);
   };
 
-  public shared ({ caller }) func makeApiRequest(url : Text, apiKey : Text) : async Text {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can make API requests");
+  // Admin-only: Configure data provider secrets
+  public shared ({ caller }) func configureDataProvider(providerId : Text, url : Text, apiKey : Text) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can configure data providers");
     };
 
-    let headers = [{ name = "Authorization"; value = apiKey }];
-    await OutCall.httpGetRequest(url, headers, transform);
+    let config : DataProviderConfig = {
+      url;
+      apiKey;
+    };
+    dataProviderConfigs.add(providerId, config);
+  };
+
+  // Admin-only: Remove data provider configuration
+  public shared ({ caller }) func removeDataProvider(providerId : Text) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can remove data providers");
+    };
+
+    dataProviderConfigs.remove(providerId);
+  };
+
+  // User function: Fetch projects from configured data provider
+  public shared ({ caller }) func fetchProjectsFromProvider(providerId : Text) : async Text {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can fetch projects");
+    };
+
+    let config = switch (dataProviderConfigs.get(providerId)) {
+      case (null) {
+        Runtime.trap("Data provider not configured");
+      };
+      case (?c) { c };
+    };
+
+    let headers = [{ name = "Authorization"; value = config.apiKey }];
+    await OutCall.httpGetRequest(config.url, headers, transform);
   };
 
   public query ({ caller }) func getProjectById(projectId : Nat) : async ?Project {
@@ -256,5 +292,27 @@ actor {
     } else {
       ?filteredProjects[0];
     };
+  };
+
+  // Check data provider status (returns whether provider is configured and reachable)
+  public shared ({ caller }) func checkDataProviderStatus(providerId : Text) : async Bool {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can check data provider status");
+    };
+
+    let config = switch (dataProviderConfigs.get(providerId)) {
+      case (null) { return false };
+      case (?c) { c };
+    };
+
+    let headers = [];
+    let response = await OutCall.httpGetRequest(config.url, headers, transform);
+    not response.isEmpty();
+  };
+
+  // Query available data providers (returns list of configured provider IDs)
+  public query ({ caller }) func getAvailableDataProviders() : async [Text] {
+    // Allow any authenticated user (including guests) to see which providers are configured
+    dataProviderConfigs.keys().toArray();
   };
 };

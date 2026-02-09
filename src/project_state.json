@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 7,
   "summary": "Website project: 'CryptoLaunch Sentinel' for crypto enthusiasts/newbies to discover new token/projects launching across 20+ blockchains with real-time feeds, project details, AI risk insights, and an educational Learn hub. Email-based features (verification/notifications via SendGrid) are explicitly removed.",
   "architectural_notes": [
     "Do not use email-based auth/verification or email notifications; proceed without SendGrid/Twilio email support.",
@@ -106,6 +106,38 @@
         "REQ-12"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-mock-discover-feed-data-source-with-a-backend-mediated-projects-fetch-suitable-for-publishing-no-mock-project-generation-in-the-published-app",
+      "title": "Replace the current mock Discover feed data source with a backend-mediated projects fetch suitable for publishing (no mock project generation in the published app).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-settings-data-providers-panel-reflect-real-runtime-provider-readiness-instead-of-static-placeholder-statuses-so-the-published-app-accurately-reports-what-is-live",
+      "title": "Make the Settings > Data Providers panel reflect real runtime/provider readiness instead of static placeholder statuses, so the published app accurately reports what is live.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-email-fields-and-any-email-related-ui-data-handling-from-user-profiles-to-align-with-the-project-s-no-email-scope-before-publishing",
+      "title": "Remove email fields and any email-related UI/data handling from user profiles to align with the project’s no-email scope before publishing.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-finalize-publish-facing-app-metadata-for-the-public-build-document-title-and-basic-meta-description-so-the-published-app-is-not-a-generic-template",
+      "title": "Finalize publish-facing app metadata for the public build (document title and basic meta description) so the published app is not a generic template.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -161,6 +193,14 @@
       "id": "AR-9",
       "summary": "Exclude email features: no verification emails or email/push-style notifications via SendGrid/Twilio.",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Implement publish-time configuration for external data provider secrets in the backend and ensure secrets are never embedded in the frontend bundle.",
+      "reqIds": [
+        "REQ-14"
+      ],
       "status": "pending"
     }
   ],

@@ -1,11 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Enable basic first-time user onboarding using Internet Identity only (no email).
+**Goal:** Prepare CryptoLaunch Sentinel for production publishing by removing mock data paths, moving provider access and secrets to the backend, and ensuring the UI accurately reflects live readiness.
 
 **Planned changes:**
-- Add a minimal first-time onboarding flow shown after a user signs in with Internet Identity.
-- Store a simple “has completed onboarding” flag per user in the backend (single Motoko actor) so onboarding is only shown once.
-- Provide a simple way for the user to complete/dismiss onboarding and proceed to the main app experience.
+- Replace the Discover feed’s primary mock data path with a backend-mediated projects fetch; when live data isn’t available, show a clear user-friendly message instead of substituting demo projects.
+- Add backend admin-only methods to set/update external provider API keys/secrets, store them in canister state, and run all secret-required HTTP calls in the backend while returning only sanitized data.
+- Update Settings > Data Providers to fetch provider statuses at runtime from the backend and present clear states (active, needs configuration, unavailable/error) using non-technical English text.
+- Remove email from user profiles end-to-end (backend data model and frontend profile UI), including any email-related prompts or messaging.
+- Finalize publish-facing metadata by setting an app-appropriate document title and meta description for “CryptoLaunch Sentinel” and removing placeholder/template metadata.
 
-**User-visible outcome:** After signing in with Internet Identity, first-time users see a brief onboarding screen and can continue into the app; returning users go directly to the app without seeing onboarding again.
+**User-visible outcome:** The published app shows real (or clearly unavailable) Discover data fetched via the backend, Settings accurately reports provider readiness, profiles have no email fields, and the app’s page title/description reflect CryptoLaunch Sentinel.

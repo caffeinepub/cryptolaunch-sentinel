@@ -1,6 +1,90 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Enable basic user onboarding (no email)",
-  "requirements": []
+  "title": "Production publish readiness for CryptoLaunch Sentinel (frontend)",
+  "requirements": [
+    {
+      "id": "REQ-13",
+      "summary": "Switch Discover feed from mock-generated projects to backend-fetched projects and show a clear message when live data is unavailable.",
+      "acceptanceCriteria": [
+        "Discover page no longer relies on frontend/src/features/discover/providers/providers.ts mock generator for its primary data path.",
+        "Frontend requests new-project discovery data via the backend actor (React Query or existing actor hooks) instead of returning hardcoded demo projects.",
+        "If real provider integration is not configured/available, the UI shows a clear non-technical message that live data is unavailable and does not silently substitute mock projects."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/discover/providers/providers.ts",
+          "operation": "modify",
+          "description": "Remove/disable the mock project generator as the primary data path and refactor this module to fetch discovery projects via the backend actor (e.g., using existing actor hooks/React Query) and map backend Project data into ProjectSummary. Use the core-infrastructure backend connection setup (actor) for published builds. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/discover/useProjectPolling.ts",
+          "operation": "modify",
+          "description": "Update polling/refresh logic to use the backend-mediated projects fetch (not the mock generator). Ensure loading/error/refresh states propagate cleanly for the Discover feed."
+        },
+        {
+          "path": "frontend/src/features/discover/NewProjectsFeed.tsx",
+          "operation": "modify",
+          "description": "Update the error/empty states to show an English, non-technical message when live project data is unavailable (and avoid substituting demo/mock projects). Ensure manual refresh continues to work with the backend fetch."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Make Settings > Data Providers show real runtime readiness fetched from the backend with clear user-facing states.",
+      "acceptanceCriteria": [
+        "Provider status values shown in the UI are fetched from the backend at runtime (not hardcoded constants).",
+        "The panel clearly differentiates: active (working), needs configuration (missing keys), and unavailable/error states.",
+        "User-facing text is in English and does not mention internal implementation details (e.g., no references to file names or mock generators)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add React Query hooks for fetching available provider IDs and their runtime status via the backend actor, returning UI-friendly readiness states (active / needs configuration / unavailable-or-error). Use the core-infrastructure actor access pattern already in place. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/settings/ProviderStatusPanel.tsx",
+          "operation": "modify",
+          "description": "Replace the hardcoded PROVIDERS list with runtime-fetched providers and statuses from the backend via React Query hooks. Render clear English labels for: Active, Needs configuration, and Unavailable/Error, without referencing internal implementation details."
+        }
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "summary": "Ensure user profile UI contains no email fields or email-related messaging.",
+      "acceptanceCriteria": [
+        "backend/main.mo UserProfile no longer includes an email field, and related save/get logic is updated accordingly.",
+        "Any frontend profile setup/edit UI does not request, display, or store an email value.",
+        "No user-facing UI suggests email verification, email login, or email notifications."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProfileSetupDialog.tsx",
+          "operation": "modify",
+          "description": "Audit and ensure the profile setup form only collects name and optional bio (no email field, no email-related copy). Keep payload aligned with the backend UserProfile type."
+        },
+        {
+          "path": "frontend/src/pages/SettingsPage.tsx",
+          "operation": "modify",
+          "description": "Audit and ensure the profile edit section only displays/edits name and bio (no email field, no email-related copy or settings)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "summary": "Finalize publish-facing document title and meta description for CryptoLaunch Sentinel.",
+      "acceptanceCriteria": [
+        "frontend/index.html has an app-appropriate title and meta description for “CryptoLaunch Sentinel”.",
+        "No user-facing placeholder/template text remains in the main page metadata."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Set/confirm the document <title> and meta description are publish-appropriate for “CryptoLaunch Sentinel” and remove any remaining template/placeholder wording."
+        }
+      ]
+    }
+  ]
 }

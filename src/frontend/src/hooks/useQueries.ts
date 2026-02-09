@@ -100,3 +100,48 @@ export function useSaveCallerUserProfile() {
     },
   });
 }
+
+// New hooks for data provider status
+export function useGetAvailableDataProviders() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<string[]>({
+    queryKey: ['availableDataProviders'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAvailableDataProviders();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useCheckDataProviderStatus(providerId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<boolean>({
+    queryKey: ['dataProviderStatus', providerId],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.checkDataProviderStatus(providerId);
+    },
+    enabled: !!actor && !isFetching && !!providerId,
+    retry: false,
+  });
+}
+
+// Hook for fetching projects from backend (for Discover feed)
+export function useGetProjectsForChain(chainId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<Project[]>({
+    queryKey: ['chainProjects', chainId],
+    queryFn: async () => {
+      if (!actor) return [];
+      // Get all projects and filter by chain
+      const allProjects = await actor.getProjects();
+      return allProjects.filter(p => p.chain === chainId);
+    },
+    enabled: !!actor && !isFetching,
+    refetchInterval: 30000, // Auto-refresh every 30 seconds
+  });
+}

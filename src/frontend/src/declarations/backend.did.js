@@ -40,7 +40,6 @@ export const ProjectAnalytics = IDL.Record({
 export const UserProfile = IDL.Record({
   'bio' : IDL.Opt(IDL.Text),
   'name' : IDL.Text,
-  'email' : IDL.Opt(IDL.Text),
 });
 export const Project = IDL.Record({
   'riskExplanation' : IDL.Text,
@@ -96,7 +95,11 @@ export const idlService = IDL.Service({
       [],
     ),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'checkDataProviderStatus' : IDL.Func([IDL.Text], [IDL.Bool], []),
+  'configureDataProvider' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+  'fetchProjectsFromProvider' : IDL.Func([IDL.Text], [IDL.Text], []),
   'getAnalytics' : IDL.Func([], [ProjectAnalytics], ['query']),
+  'getAvailableDataProviders' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getProjectById' : IDL.Func([IDL.Nat], [IDL.Opt(Project)], ['query']),
@@ -107,7 +110,7 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-  'makeApiRequest' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], []),
+  'removeDataProvider' : IDL.Func([IDL.Text], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'transform' : IDL.Func(
       [TransformationInput],
@@ -156,7 +159,6 @@ export const idlFactory = ({ IDL }) => {
   const UserProfile = IDL.Record({
     'bio' : IDL.Opt(IDL.Text),
     'name' : IDL.Text,
-    'email' : IDL.Opt(IDL.Text),
   });
   const Project = IDL.Record({
     'riskExplanation' : IDL.Text,
@@ -209,7 +211,11 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'checkDataProviderStatus' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'configureDataProvider' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], []),
+    'fetchProjectsFromProvider' : IDL.Func([IDL.Text], [IDL.Text], []),
     'getAnalytics' : IDL.Func([], [ProjectAnalytics], ['query']),
+    'getAvailableDataProviders' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getProjectById' : IDL.Func([IDL.Nat], [IDL.Opt(Project)], ['query']),
@@ -220,7 +226,7 @@ export const idlFactory = ({ IDL }) => {
         ['query'],
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-    'makeApiRequest' : IDL.Func([IDL.Text, IDL.Text], [IDL.Text], []),
+    'removeDataProvider' : IDL.Func([IDL.Text], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'transform' : IDL.Func(
         [TransformationInput],

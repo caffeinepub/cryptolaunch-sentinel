@@ -63,7 +63,6 @@ export interface Project {
 export interface UserProfile {
     bio?: string;
     name: string;
-    email?: string;
 }
 export interface http_header {
     value: string;
@@ -77,14 +76,18 @@ export enum UserRole {
 export interface backendInterface {
     addProject(name: string, description: string, chain: string, launchDate: bigint, auditPresence: boolean, teamTransparency: boolean, liquidity: bigint, volume: bigint, lessons: Array<Lesson>, quizzes: Array<Quiz>, videos: Array<Video>): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    checkDataProviderStatus(providerId: string): Promise<boolean>;
+    configureDataProvider(providerId: string, url: string, apiKey: string): Promise<void>;
+    fetchProjectsFromProvider(providerId: string): Promise<string>;
     getAnalytics(): Promise<ProjectAnalytics>;
+    getAvailableDataProviders(): Promise<Array<string>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getProjectById(projectId: bigint): Promise<Project | null>;
     getProjects(): Promise<Array<Project>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    makeApiRequest(url: string, apiKey: string): Promise<string>;
+    removeDataProvider(providerId: string): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
     updateAnalytics(chainSelections: bigint, projectOpens: bigint, riskDetailsExpands: bigint, lessonStarts: bigint, lessonCompletes: bigint, quizSubmits: bigint): Promise<void>;

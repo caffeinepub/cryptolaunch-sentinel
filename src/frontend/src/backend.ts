@@ -145,7 +145,6 @@ export interface Project {
 export interface UserProfile {
     bio?: string;
     name: string;
-    email?: string;
 }
 export interface http_header {
     value: string;
@@ -160,14 +159,18 @@ export interface backendInterface {
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     addProject(name: string, description: string, chain: string, launchDate: bigint, auditPresence: boolean, teamTransparency: boolean, liquidity: bigint, volume: bigint, lessons: Array<Lesson>, quizzes: Array<Quiz>, videos: Array<Video>): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    checkDataProviderStatus(providerId: string): Promise<boolean>;
+    configureDataProvider(providerId: string, url: string, apiKey: string): Promise<void>;
+    fetchProjectsFromProvider(providerId: string): Promise<string>;
     getAnalytics(): Promise<ProjectAnalytics>;
+    getAvailableDataProviders(): Promise<Array<string>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getProjectById(projectId: bigint): Promise<Project | null>;
     getProjects(): Promise<Array<Project>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
-    makeApiRequest(url: string, apiKey: string): Promise<string>;
+    removeDataProvider(providerId: string): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
     updateAnalytics(chainSelections: bigint, projectOpens: bigint, riskDetailsExpands: bigint, lessonStarts: bigint, lessonCompletes: bigint, quizSubmits: bigint): Promise<void>;
@@ -217,6 +220,48 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async checkDataProviderStatus(arg0: string): Promise<boolean> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.checkDataProviderStatus(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.checkDataProviderStatus(arg0);
+            return result;
+        }
+    }
+    async configureDataProvider(arg0: string, arg1: string, arg2: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.configureDataProvider(arg0, arg1, arg2);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.configureDataProvider(arg0, arg1, arg2);
+            return result;
+        }
+    }
+    async fetchProjectsFromProvider(arg0: string): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.fetchProjectsFromProvider(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.fetchProjectsFromProvider(arg0);
+            return result;
+        }
+    }
     async getAnalytics(): Promise<ProjectAnalytics> {
         if (this.processError) {
             try {
@@ -228,6 +273,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.getAnalytics();
+            return result;
+        }
+    }
+    async getAvailableDataProviders(): Promise<Array<string>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAvailableDataProviders();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAvailableDataProviders();
             return result;
         }
     }
@@ -315,17 +374,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async makeApiRequest(arg0: string, arg1: string): Promise<string> {
+    async removeDataProvider(arg0: string): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.makeApiRequest(arg0, arg1);
+                const result = await this.actor.removeDataProvider(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.makeApiRequest(arg0, arg1);
+            const result = await this.actor.removeDataProvider(arg0);
             return result;
         }
     }
@@ -390,16 +449,13 @@ function from_candid_opt_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Ar
 function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     bio: [] | [string];
     name: string;
-    email: [] | [string];
 }): {
     bio?: string;
     name: string;
-    email?: string;
 } {
     return {
         bio: record_opt_to_undefined(from_candid_opt_n6(_uploadFile, _downloadFile, value.bio)),
-        name: value.name,
-        email: record_opt_to_undefined(from_candid_opt_n6(_uploadFile, _downloadFile, value.email))
+        name: value.name
     };
 }
 function from_candid_variant_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -420,16 +476,13 @@ function to_candid_UserRole_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint
 function to_candid_record_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     bio?: string;
     name: string;
-    email?: string;
 }): {
     bio: [] | [string];
     name: string;
-    email: [] | [string];
 } {
     return {
         bio: value.bio ? candid_some(value.bio) : candid_none(),
-        name: value.name,
-        email: value.email ? candid_some(value.email) : candid_none()
+        name: value.name
     };
 }
 function to_candid_variant_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UserRole): {

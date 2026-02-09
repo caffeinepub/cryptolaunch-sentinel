@@ -53,11 +53,7 @@ export interface TransformationOutput {
   'body' : Uint8Array,
   'headers' : Array<http_header>,
 }
-export interface UserProfile {
-  'bio' : [] | [string],
-  'name' : string,
-  'email' : [] | [string],
-}
+export interface UserProfile { 'bio' : [] | [string], 'name' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
@@ -87,14 +83,18 @@ export interface _SERVICE {
     undefined
   >,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'checkDataProviderStatus' : ActorMethod<[string], boolean>,
+  'configureDataProvider' : ActorMethod<[string, string, string], undefined>,
+  'fetchProjectsFromProvider' : ActorMethod<[string], string>,
   'getAnalytics' : ActorMethod<[], ProjectAnalytics>,
+  'getAvailableDataProviders' : ActorMethod<[], Array<string>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getProjectById' : ActorMethod<[bigint], [] | [Project]>,
   'getProjects' : ActorMethod<[], Array<Project>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
-  'makeApiRequest' : ActorMethod<[string, string], string>,
+  'removeDataProvider' : ActorMethod<[string], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
   'updateAnalytics' : ActorMethod<

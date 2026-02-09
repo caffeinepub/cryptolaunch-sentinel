@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { RefreshCw, Clock, AlertCircle } from 'lucide-react';
+import { RefreshCw, Clock, AlertCircle, Database } from 'lucide-react';
 import { useChain } from '../../state/chain';
 import { useProjectPolling } from './useProjectPolling';
 import ProjectCard from '../projects/ProjectCard';
@@ -13,7 +12,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 export default function NewProjectsFeed() {
   const { selectedChain } = useChain();
   const { projects, isLoading, error, lastUpdated, refresh, isRefreshing } = useProjectPolling(selectedChain.id);
-  const [autoRefresh, setAutoRefresh] = useState(true);
 
   const handleRefresh = () => {
     refresh();
@@ -62,7 +60,7 @@ export default function NewProjectsFeed() {
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            Failed to load projects. Please try again later.
+            Unable to load project data at this time. Please check back later or contact support if the issue persists.
           </AlertDescription>
         </Alert>
       )}
@@ -84,17 +82,23 @@ export default function NewProjectsFeed() {
         </div>
       )}
 
-      {/* Projects List */}
+      {/* Empty State - No Projects */}
       {!isLoading && !error && projects.length === 0 && (
         <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">
-              No new projects found on {selectedChain.name} yet. Check back soon!
-            </p>
+          <CardContent className="py-12 text-center space-y-3">
+            <Database className="h-12 w-12 mx-auto text-muted-foreground" />
+            <div>
+              <p className="text-lg font-medium">No projects available</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Live project data is currently unavailable for {selectedChain.name}. 
+                Data providers may need to be configured or the network may not have recent launches.
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}
 
+      {/* Projects List */}
       {!isLoading && !error && projects.length > 0 && (
         <div className="space-y-4">
           {projects.map((project, index) => (

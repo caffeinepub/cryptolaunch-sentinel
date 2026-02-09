@@ -65,148 +65,136 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="container py-8">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-          <p className="mt-2 text-muted-foreground">
-            Manage your preferences and view analytics
-          </p>
-        </div>
+    <div className="container mx-auto max-w-4xl space-y-6 py-8">
+      <div>
+        <h1 className="text-3xl font-bold">Settings</h1>
+        <p className="text-muted-foreground">
+          Manage your account preferences and application settings
+        </p>
+      </div>
 
-        {/* User Profile */}
-        {isAuthenticated && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
-                Profile
-              </CardTitle>
-              <CardDescription>
-                Update your personal information
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {profileLoading ? (
-                <p className="text-sm text-muted-foreground">Loading profile...</p>
-              ) : (
-                <>
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-name">Name</Label>
-                    <Input
-                      id="profile-name"
-                      placeholder="Enter your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
+      <Separator />
 
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-bio">Bio</Label>
-                    <Textarea
-                      id="profile-bio"
-                      placeholder="Tell us about yourself..."
-                      value={bio}
-                      onChange={(e) => setBio(e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-
-                  <Button 
-                    onClick={handleSaveProfile}
-                    disabled={saveProfile.isPending}
-                  >
-                    <Save className="mr-2 h-4 w-4" />
-                    {saveProfile.isPending ? 'Saving...' : 'Save Profile'}
-                  </Button>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Notifications */}
+      {/* User Profile Section */}
+      {isAuthenticated && (
         <Card>
           <CardHeader>
-            <CardTitle>Notifications</CardTitle>
+            <div className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              <CardTitle>Profile</CardTitle>
+            </div>
             <CardDescription>
-              Configure in-app notifications for new projects and lessons
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <NotificationPreferences />
-          </CardContent>
-        </Card>
-
-        {/* Offline & Cache */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Offline Mode</CardTitle>
-            <CardDescription>
-              Manage cached content for offline access
+              Update your personal information
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm font-medium">Connection Status</p>
-                <p className="text-sm text-muted-foreground">
-                  {isOnline ? 'Online' : 'Offline'}
-                </p>
-              </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                {isOnline ? (
-                  <Wifi className="h-5 w-5 text-green-600" />
-                ) : (
-                  <WifiOff className="h-5 w-5 text-orange-600" />
-                )}
-              </div>
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm font-medium">Last Sync</p>
-                <p className="text-sm text-muted-foreground">
-                  {lastSync ? lastSync.toLocaleString() : 'Never'}
-                </p>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClearCache}
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Clear Cache
-              </Button>
-            </div>
+            {profileLoading ? (
+              <p className="text-sm text-muted-foreground">Loading profile...</p>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="settings-name">Name</Label>
+                  <Input
+                    id="settings-name"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="settings-bio">Bio</Label>
+                  <Textarea
+                    id="settings-bio"
+                    placeholder="Tell us about yourself..."
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    rows={3}
+                  />
+                </div>
+
+                <Button 
+                  onClick={handleSaveProfile}
+                  disabled={saveProfile.isPending}
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  {saveProfile.isPending ? 'Saving...' : 'Save Changes'}
+                </Button>
+              </>
+            )}
           </CardContent>
         </Card>
+      )}
 
-        {/* Data Providers */}
-        <ProviderStatusPanel />
+      {/* Notifications */}
+      <NotificationPreferences />
 
-        {/* Onboarding */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Onboarding & Help</CardTitle>
-            <CardDescription>
-              Replay the welcome tutorial or access help resources
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+      {/* Offline Status */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            {isOnline ? (
+              <Wifi className="h-5 w-5 text-green-600" />
+            ) : (
+              <WifiOff className="h-5 w-5 text-orange-600" />
+            )}
+            <CardTitle>Connection Status</CardTitle>
+          </div>
+          <CardDescription>
+            {isOnline ? 'You are online' : 'You are offline'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">
+              {isOnline
+                ? 'All features are available.'
+                : 'Some features may be limited while offline. Cached lessons remain available.'}
+            </p>
+            {lastSync && (
+              <p className="text-xs text-muted-foreground">
+                Last synced: {lastSync.toLocaleString()}
+              </p>
+            )}
             <Button
               variant="outline"
-              onClick={resetOnboarding}
+              size="sm"
+              onClick={handleClearCache}
             >
-              <RotateCcw className="mr-2 h-4 w-4" />
-              Replay Onboarding
+              <Trash2 className="mr-2 h-4 w-4" />
+              Clear Lesson Cache
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* Analytics */}
-        <AnalyticsPanel />
-      </div>
+      {/* Data Providers */}
+      <ProviderStatusPanel />
+
+      {/* Onboarding */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Onboarding</CardTitle>
+          <CardDescription>
+            Replay the welcome tutorial
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button
+            variant="outline"
+            onClick={() => {
+              resetOnboarding();
+              toast.success('Onboarding reset. Refresh the page to see the tutorial again.');
+            }}
+          >
+            <RotateCcw className="mr-2 h-4 w-4" />
+            Reset Onboarding
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Analytics */}
+      {isAuthenticated && <AnalyticsPanel />}
     </div>
   );
 }

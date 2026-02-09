@@ -1,39 +1,93 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-09T03:09:19.661Z",
+  "generatedAt": "2026-02-09T03:21:42.361Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 0,
-    "implemented": 0,
-    "items": []
+    "total": 5,
+    "implemented": 4,
+    "items": [
+      {
+        "id": "REQ-13",
+        "summary": "Replace the current mock Discover feed data source with a backend-mediated projects fetch suitable for publishing (no mock project generation in the published app).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/discover/providers/providers.ts",
+          "frontend/src/features/discover/useProjectPolling.ts",
+          "frontend/src/features/discover/NewProjectsFeed.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/discover/providers/providers.ts",
+          "frontend/src/features/discover/useProjectPolling.ts",
+          "frontend/src/features/discover/NewProjectsFeed.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Implement publish-time configuration for external data provider secrets in the backend and ensure secrets are never embedded in the frontend bundle.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Make the Settings > Data Providers panel reflect real runtime/provider readiness instead of static placeholder statuses, so the published app accurately reports what is live.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/features/settings/ProviderStatusPanel.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/features/settings/ProviderStatusPanel.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Remove email fields and any email-related UI/data handling from user profiles to align with the project’s no-email scope before publishing.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ProfileSetupDialog.tsx",
+          "frontend/src/pages/SettingsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/SettingsPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-17",
+        "summary": "Finalize publish-facing app metadata for the public build (document title and basic meta description) so the published app is not a generic template.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/index.html"
+        ],
+        "matchedFiles": [
+          "frontend/index.html"
+        ]
+      }
+    ]
   },
   "changedFiles": [
-    "backend/authorization/MixinAuthorization.mo",
-    "backend/authorization/access-control.mo",
     "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
-    "build-template/README.md",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
+    "frontend/index.html",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
-    "frontend/src/components/AppHeader.tsx",
-    "frontend/src/components/LoginButton.tsx",
-    "frontend/src/components/ProfileSetupDialog.tsx",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
-    "frontend/src/features/onboarding/onboardingStore.ts",
-    "frontend/src/hooks/useActor.ts",
+    "frontend/src/features/discover/NewProjectsFeed.tsx",
+    "frontend/src/features/discover/providers/providers.ts",
+    "frontend/src/features/discover/useProjectPolling.ts",
+    "frontend/src/features/settings/ProviderStatusPanel.tsx",
     "frontend/src/hooks/useQueries.ts",
     "frontend/src/pages/SettingsPage.tsx",
-    "frontend/src/utils/urlParams.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

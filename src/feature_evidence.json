@@ -1,4 +1,88 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-replace-the-current-mock-discover-feed-data-source-with-a-backend-mediated-projects-fetch-suitable-for-publishing-no-mock-project-generation-in-the-published-app",
+      "featureTitle": "Replace the current mock Discover feed data source with a backend-mediated projects fetch suitable for publishing (no mock project generation in the published app).",
+      "files": [
+        "frontend/src/features/discover/NewProjectsFeed.tsx",
+        "frontend/src/features/discover/providers/providers.ts",
+        "frontend/src/features/discover/useProjectPolling.ts"
+      ],
+      "components": [
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-the-settings-data-providers-panel-reflect-real-runtime-provider-readiness-instead-of-static-placeholder-statuses-so-the-published-app-accurately-reports-what-is-live",
+      "featureTitle": "Make the Settings > Data Providers panel reflect real runtime/provider readiness instead of static placeholder statuses, so the published app accurately reports what is live.",
+      "files": [
+        "frontend/src/features/settings/ProviderStatusPanel.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-remove-email-fields-and-any-email-related-ui-data-handling-from-user-profiles-to-align-with-the-project-s-no-email-scope-before-publishing",
+      "featureTitle": "Remove email fields and any email-related UI/data handling from user profiles to align with the project’s no-email scope before publishing.",
+      "files": [
+        "frontend/src/pages/SettingsPage.tsx"
+      ],
+      "components": [
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-finalize-publish-facing-app-metadata-for-the-public-build-document-title-and-basic-meta-description-so-the-published-app-is-not-a-generic-template",
+      "featureTitle": "Finalize publish-facing app metadata for the public build (document title and basic meta description) so the published app is not a generic template.",
+      "files": [
+        "frontend/index.html"
+      ],
+      "components": [
+        "http-outcalls@3.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

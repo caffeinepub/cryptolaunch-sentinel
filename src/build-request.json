@@ -1,18 +1,106 @@
 {
   "kind": "build_request",
-  "title": "Enable basic user onboarding (no email)",
+  "title": "Production publish readiness for CryptoLaunch Sentinel",
   "priority": "normal",
-  "requirements": [],
+  "requirements": [
+    {
+      "id": "REQ-13",
+      "text": "Replace the current mock Discover feed data source with a backend-mediated projects fetch suitable for publishing (no mock project generation in the published app).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Discover page no longer relies on frontend/src/features/discover/providers/providers.ts mock generator for its primary data path.",
+        "Frontend requests new-project discovery data via the backend actor (React Query or existing actor hooks) instead of returning hardcoded demo projects.",
+        "If real provider integration is not configured/available, the UI shows a clear non-technical message that live data is unavailable and does not silently substitute mock projects."
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Implement publish-time configuration for external data provider secrets in the backend and ensure secrets are never embedded in the frontend bundle.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes admin-only methods to set/update required API keys/secrets for providers that need them (Alchemy, Moralis, QuickNode, Bitquery, CoinMarketCap).",
+        "Backend stores secrets in canister state and never returns secrets to the frontend.",
+        "All secret-required HTTP calls are executed by the backend (using existing HTTP outcall capabilities) and return only the needed, sanitized response data to the frontend."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Make the Settings > Data Providers panel reflect real runtime/provider readiness instead of static placeholder statuses, so the published app accurately reports what is live.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Provider status values shown in the UI are fetched from the backend at runtime (not hardcoded constants).",
+        "The panel clearly differentiates: active (working), needs configuration (missing keys), and unavailable/error states.",
+        "User-facing text is in English and does not mention internal implementation details (e.g., no references to file names or mock generators)."
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Remove email fields and any email-related UI/data handling from user profiles to align with the project’s no-email scope before publishing.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "backend/main.mo UserProfile no longer includes an email field, and related save/get logic is updated accordingly.",
+        "Any frontend profile setup/edit UI does not request, display, or store an email value.",
+        "No user-facing UI suggests email verification, email login, or email notifications."
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Finalize publish-facing app metadata for the public build (document title and basic meta description) so the published app is not a generic template.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "frontend/index.html has an app-appropriate title and meta description for “CryptoLaunch Sentinel”.",
+        "No user-facing placeholder/template text remains in the main page metadata."
+      ]
+    }
+  ],
   "constraints": [
-    "Backend must remain a single Motoko actor with all logic in backend/main.mo; only add backend/migration.mo if a state upgrade is required.",
-    "Do not edit frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*; compose these components/hooks instead.",
-    "Use English for all user-facing text.",
-    "Do not implement any email-based features (verification emails, email OTP login, SendGrid/Twilio integrations, email notifications)."
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo; only add backend/migration.mo if a real stable-state upgrade requires it.",
+    "Do not edit any files under frontend/src/components/ui or any paths listed in frontend.immutablePaths.",
+    "Do not embed third-party API keys/secrets in the frontend bundle; secrets must be configured and used via the backend."
   ],
   "nonGoals": [
-    "Adding any email or SMS-based onboarding, verification, or notifications.",
-    "Introducing third-party authentication providers beyond Internet Identity.",
-    "Implementing additional onboarding steps/content beyond what is necessary for basic first-time user guidance (unless explicitly requested)."
+    "Executing or automating an actual mainnet deployment/CI pipeline outside the codebase (e.g., GitHub Actions setup)",
+    "Adding new product features unrelated to publishing readiness (e.g., payments, social login, chat, email features)"
   ],
   "imageRequirements": {
     "required": [],
